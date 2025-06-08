@@ -1,30 +1,13 @@
 import { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectIsLogin } from './redux/authSlice';
-import { CircularProgress } from '@mui/material';
+import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 
+import { routes } from './routes/routes';
+import { AppLayout } from './layout/AppLayout';
+import { LoadingScreen, ProtectedRoute, PublicRoute } from './components/ProtectedRoute';
 
 const Login = lazy(() => import('./pages/Login'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 
-
-const LoadingScreen = () => (
-  <div className="flex h-screen items-center justify-center">
-    <CircularProgress />
-  </div>
-);
-
-const ProtectedRoute = () => {
-  const isLogin = useSelector(selectIsLogin);
-  return isLogin ? <Outlet /> : <Navigate to="/login" replace />;
-};
-
-
-const PublicRoute = () => {
-  const isLogin = useSelector(selectIsLogin);
-  return !isLogin ? <Outlet /> : <Navigate to="/dashboard" replace />;
-};
 
 function App() {
   return (
@@ -32,16 +15,15 @@ function App() {
       <Suspense fallback={<LoadingScreen />}>
         <Routes>
           <Route element={<PublicRoute />}>
-            <Route path="/login" element={<Login />} />
+            <Route path={routes.login} element={<Login />} />
           </Route>
-
           <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<AppLayout />}>
+              <Route path={routes.dashboard} element={<Dashboard />} />
+              <Route path={routes.homepage} element={<Navigate to={routes.dashboard} replace />} />
+            </Route>
           </Route>
-
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to={routes.homepage} replace />} />
         </Routes>
       </Suspense>
     </BrowserRouter>
