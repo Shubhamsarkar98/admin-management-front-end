@@ -18,6 +18,7 @@ const QrScanner = () => {
 
   const onSubmit = (data: FormValues) => {
     dispatch(generateQRCodeThunk(data.url));
+    navigate('/qrcode');
   };
 
   return (
