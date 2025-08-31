@@ -18,6 +18,7 @@ import {
   Inbox,
   Settings,
   Dashboard,
+  QrCode,
 } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -43,6 +44,7 @@ const Sidebar = () => {
 
   const menuItems = [
     { text: "Home", icon: <Home />, path:routes.homepage },
+    {text: "Qr Code", icon: <QrCode />, path:routes.qrcode},
     {
       text: "Dashboard",
       icon: <Dashboard />,

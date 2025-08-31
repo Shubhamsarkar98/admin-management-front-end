@@ -1,5 +1,7 @@
 export const routes = {
   homepage: "/",
   login: "/login",
-  dashboard: "/dashboard"
+  dashboard: "/dashboard",
+  qrcode : "/qrcode",
+  addqrcode : "/addqrcode"
 }
